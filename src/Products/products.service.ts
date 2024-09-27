@@ -11,4 +11,20 @@ export class ProductsService {
   getProductsList(): Array<Product> {
     return this.productsRepository.getProductsList();
   };
+  
+  getProductById(productId: number): Product | undefined {
+    return this.productsRepository.getProductById(productId);
+  };
+
+  createNewproduct(product: Omit<Product, 'id'>): number {
+    return this.productsRepository.createNewproduct(product);
+  };
+
+  updateProductInfo(updatedProduct: Product): number | undefined {
+    return this.productsRepository.updateProductInfo(updatedProduct);
+  };
+
+  deleteProductById(productId: number): number | undefined {
+    return this.productsRepository.deleteProductById(productId);
+  };
 }

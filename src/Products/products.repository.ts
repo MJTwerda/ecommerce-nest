@@ -34,5 +34,38 @@ export class ProductsRepository {
 
   getProductsList(): Array<Product> { 
     return MOCK_PRODUCTS;
-  }
-}
+  };
+
+  getProductById(productId: number): Product | undefined {
+    const foundedProduct = MOCK_PRODUCTS.find(product => product.id === productId);
+    return foundedProduct;
+  };
+
+  createNewproduct(product: Omit<Product, 'id'>): number {
+    const newProduct = {...product, id: MOCK_PRODUCTS.length + 1};
+    MOCK_PRODUCTS.push(newProduct);
+    return newProduct.id;
+  };
+
+  updateProductInfo(updatedProduct: Product): number | undefined {
+    const foundedProduct = MOCK_PRODUCTS.find(product => product.id === updatedProduct.id);
+    
+    if (!foundedProduct) {
+      return undefined;
+    }
+
+    Object.assign(foundedProduct, updatedProduct);
+    return updatedProduct.id
+  };
+
+  deleteProductById(productId: number): number | undefined {
+    const index = MOCK_PRODUCTS.findIndex(product => product.id === productId);
+  
+    if (index === -1) {
+      return undefined; // Producto no encontrado
+    }
+  
+    MOCK_PRODUCTS.splice(index, 1); // Se elimina el producto en la posición 'index'
+    return productId; 
+  };
+};
