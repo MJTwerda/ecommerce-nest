@@ -9,6 +9,7 @@ import {
   Put,
   Query,
   Res,
+  UseGuards,
   UsePipes,
   ValidationPipe 
 } from "@nestjs/common";
@@ -17,6 +18,7 @@ import { CommonQueryDto } from '../commons/dtos/common-query-dto';
 import { Response } from "express";
 import { BaseUserDto } from "./dtos/base-user-dto";
 import { CompleteUserDto } from './dtos/complete-user-dto';
+import { AuthGuard } from "src/Auth/guards/auth.guard";
 
 @Controller('users')
 export class UsersController { 
@@ -25,6 +27,7 @@ export class UsersController {
   ) {};
 
   @Get()
+  @UseGuards(AuthGuard)
   getUsersList(
     @Query() query: CommonQueryDto,
     @Res() response: Response
@@ -34,6 +37,7 @@ export class UsersController {
   };
 
   @Get(':userid')
+  @UseGuards(AuthGuard)
   getUserById( 
     @Param('userId') userId: string, 
     @Res() response: Response
@@ -66,6 +70,7 @@ export class UsersController {
   };
 
   @Put()
+  @UseGuards(AuthGuard)
   @UsePipes(new ValidationPipe({ forbidUnknownValues: true }))
   updateUser(
     @Body() updatedUser: CompleteUserDto, 
@@ -80,6 +85,7 @@ export class UsersController {
   };
 
   @Delete(':userId')
+  @UseGuards(AuthGuard)
   @UsePipes(ParseIntPipe)
   deleteUserById(
     @Param('userId', ParseIntPipe) userId, 

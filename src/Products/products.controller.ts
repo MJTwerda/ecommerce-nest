@@ -9,6 +9,7 @@ import {
   Put,
   Query,
   Res,
+  UseGuards,
   UsePipes,
   ValidationPipe 
 } from '@nestjs/common';
@@ -19,6 +20,7 @@ import { ProductsService } from "./products.service";
 import { CompleteProductDto } from './dtos/complete-product-dto';
 import { BaseProductDto } from './dtos/base-product-dto';
 import { CommonQueryDto } from '../commons/dtos/common-query-dto';
+import { AuthGuard } from 'src/Auth/guards/auth.guard';
 
 
 @Controller('products')
@@ -54,6 +56,7 @@ export class ProductsController {
   };
 
   @Post()
+  @UseGuards(AuthGuard)
   @UsePipes(ValidationPipe)
   createNewProduct( 
     @Body() newProduct: BaseProductDto, 
@@ -69,6 +72,7 @@ export class ProductsController {
   };
 
   @Put()
+  @UseGuards(AuthGuard)
   @UsePipes(new ValidationPipe({ forbidUnknownValues: true }))
   updateProduct(
     @Body() updatedProduct: CompleteProductDto, 
@@ -83,6 +87,7 @@ export class ProductsController {
   };
 
   @Delete(':productId')
+  @UseGuards(AuthGuard)
   @UsePipes(ParseIntPipe)
   deleteProductById(
     @Param('productId', ParseIntPipe) productId, 
