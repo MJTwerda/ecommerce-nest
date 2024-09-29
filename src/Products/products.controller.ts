@@ -16,7 +16,7 @@ import { Response } from "express";
 
 import { ProductsService } from "./products.service";
 
-import { UpdateProductDto } from './dtos/update-product-dto';
+import { CompleteProductDto } from './dtos/complete-product-dto';
 import { BaseProductDto } from './dtos/base-product-dto';
 import { CommonQueryDto } from '../commons/dtos/common-query-dto';
 
@@ -71,7 +71,7 @@ export class ProductsController {
   @Put()
   @UsePipes(new ValidationPipe({ forbidUnknownValues: true }))
   updateProduct(
-    @Body() updatedProduct: UpdateProductDto, 
+    @Body() updatedProduct: CompleteProductDto, 
     @Res() response: Response
   ) {
     const updated_product_id = this.productsService.updateProductInfo(updatedProduct);

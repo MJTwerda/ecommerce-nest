@@ -1,0 +1,1 @@
+export const INVALID_CREDENTIALS = 'Invalid credentials. Please try again with valid credentials.';

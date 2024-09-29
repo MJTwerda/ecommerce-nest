@@ -1,12 +1,11 @@
 import { Injectable } from "@nestjs/common";
-import { Product } from "./interfaces/products.interfaces";
 import { BaseRepository } from '../commons/repositories/base-repository';
 import { CommonPaginatedResponse } from "src/commons/interfaces/common-query.interfaces";
 import { CommonQueryDto } from '../commons/dtos/common-query-dto';
 import { BaseProductDto } from './dtos/base-product-dto';
-import { UpdateProductDto } from './dtos/update-product-dto';
+import { CompleteProductDto } from './dtos/complete-product-dto';
 
-const MOCK_PRODUCTS: Array<UpdateProductDto> = [
+const MOCK_PRODUCTS: Array<CompleteProductDto> = [
   {
     id: 1,
     name: 'Product 1',
@@ -34,12 +33,12 @@ const MOCK_PRODUCTS: Array<UpdateProductDto> = [
 ];
 
 @Injectable()
-export class ProductsRepository extends BaseRepository<Product> {
+export class ProductsRepository extends BaseRepository<CompleteProductDto> {
   constructor() {
     super();
   };
 
-  getProductsList(query: CommonQueryDto): CommonPaginatedResponse<Product> { 
+  getProductsList(query: CommonQueryDto): CommonPaginatedResponse<CompleteProductDto> { 
     const page = Number(query.page) || 1; // Valor por defecto de 1 si query.page es undefined o NaN
     const limit = Number(query.limit) || 5;
 
@@ -50,7 +49,7 @@ export class ProductsRepository extends BaseRepository<Product> {
     );
   };
 
-  getProductById(productId: number): Product | undefined {
+  getProductById(productId: number): CompleteProductDto | undefined {
     const foundedProduct = MOCK_PRODUCTS.find(product => product.id === productId);
     return foundedProduct;
   };
@@ -61,7 +60,7 @@ export class ProductsRepository extends BaseRepository<Product> {
     return newProduct.id;
   };
 
-  updateProductInfo(updatedProduct: UpdateProductDto): number | undefined {
+  updateProductInfo(updatedProduct: CompleteProductDto): number | undefined {
     const foundedProduct = MOCK_PRODUCTS.find(product => product.id === updatedProduct.id);
     
     if (!foundedProduct) {

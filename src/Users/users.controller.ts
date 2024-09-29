@@ -16,7 +16,7 @@ import { UsersService } from './users.service';
 import { CommonQueryDto } from '../commons/dtos/common-query-dto';
 import { Response } from "express";
 import { BaseUserDto } from "./dtos/base-user-dto";
-import { UpdateUserDto } from './dtos/update-user-dto';
+import { CompleteUserDto } from './dtos/complete-user-dto';
 
 @Controller('users')
 export class UsersController { 
@@ -68,7 +68,7 @@ export class UsersController {
   @Put()
   @UsePipes(new ValidationPipe({ forbidUnknownValues: true }))
   updateUser(
-    @Body() updatedUser: UpdateUserDto, 
+    @Body() updatedUser: CompleteUserDto, 
     @Res() response: Response
   ) {
     const updated_user_id = this.usersService.updateUserInfo(updatedUser);
