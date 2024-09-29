@@ -1,6 +1,8 @@
 import { Injectable } from "@nestjs/common";
 import { Product } from "./interfaces/products.interfaces";
 import { ProductsRepository } from "./products.repository";
+import { CommonPaginatedResponse } from "src/commons/interfaces/common-query.interfaces";
+import { CommonQueryDto } from "src/commons/dtos/common-query-dto";
 
 @Injectable()
 export class ProductsService {
@@ -8,16 +10,16 @@ export class ProductsService {
     private readonly productsRepository: ProductsRepository
   ) {};
 
-  getProductsList(): Array<Product> {
-    return this.productsRepository.getProductsList();
+  getProductsList(query: CommonQueryDto): CommonPaginatedResponse<Product> {
+    return this.productsRepository.getProductsList(query);
   };
   
   getProductById(productId: number): Product | undefined {
     return this.productsRepository.getProductById(productId);
   };
 
-  createNewproduct(product: Omit<Product, 'id'>): number {
-    return this.productsRepository.createNewproduct(product);
+  createNewProduct(product: Omit<Product, 'id'>): number {
+    return this.productsRepository.createNewProduct(product);
   };
 
   updateProductInfo(updatedProduct: Product): number | undefined {
