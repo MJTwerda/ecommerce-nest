@@ -3,6 +3,7 @@ import { ProductsRepository } from "./products.repository";
 import { CommonPaginatedResponse } from "src/commons/interfaces/common-query.interfaces";
 import { CommonQueryDto } from "src/commons/dtos/common-query-dto";
 import { CompleteProductDto } from "./dtos/complete-product-dto";
+import { ProductsEntity } from "./products.entity";
 
 @Injectable()
 export class ProductsService {
@@ -10,9 +11,10 @@ export class ProductsService {
     private readonly productsRepository: ProductsRepository
   ) {};
 
-  // getProductsList(query: CommonQueryDto): CommonPaginatedResponse<CompleteProductDto> {
-  //   return this.productsRepository.getProductsList(query);
-  // };
+  async getProductsList(query: CommonQueryDto): Promise<CommonPaginatedResponse<ProductsEntity>> {
+    const productsList = await this.productsRepository.getProductsList(query);
+    return productsList;
+  };
   
   // getProductById(productId: number): CompleteProductDto | undefined {
   //   return this.productsRepository.getProductById(productId);

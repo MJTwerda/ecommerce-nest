@@ -6,18 +6,42 @@ import { BaseProductDto } from './dtos/base-product-dto';
 import { CompleteProductDto } from './dtos/complete-product-dto';
 import { ProductsEntity } from "./products.entity";
 import { InjectRepository } from "@nestjs/typeorm";
-import { Repository } from "typeorm";
+import { DataSource, Repository } from "typeorm";
 
 @Injectable()
-export class ProductsRepository {
+export class ProductsRepository extends BaseRepository<ProductsEntity> {
   constructor(
-    @InjectRepository(ProductsEntity) private productsRepository: Repository<ProductsEntity>
-  ) {};
+    @InjectRepository(ProductsEntity) private readonly productsRepository: Repository<ProductsEntity>,
+    dataSource: DataSource
+  ) {
+    super(productsRepository.target, dataSource.createEntityManager());
+  };
 
   async createNewProduct(product: Omit<ProductsEntity, 'id'>): Promise<ProductsEntity | undefined> {
     const createdUser = await this.productsRepository.save(product);
     return createdUser;
+  };
+
+  async getProductsList(query: CommonQueryDto) {
+    const options = {}; // Puedes personalizar las opciones de la búsqueda aquí
+    const page = Number(query.page) || 1; // Valor por defecto de 1 si query.page es undefined o NaN
+    const limit = Number(query.limit) || 5; // Valor por defecto de 1 si query.limit es undefined o NaN
+    return this.paginate(options, page, limit);
   }
+
+  // async getProductsList(query: CommonQueryDto): Promise<CommonPaginatedResponse<ProductsEntity>> { 
+  //   const productsList = await this.productsRepository.findAndCount();
+  //   console.log({ productsList });
+    
+  //   const response = {
+  //     items: productsList[0],
+  //     page: 1,
+  //     limit: 5,
+  //     totalItems: productsList[1],
+  //     totalPages: 1
+  //   };
+  //   return response;
+  // };
 
   // constructor() {
   //   super();

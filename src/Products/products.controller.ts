@@ -29,14 +29,14 @@ export class ProductsController {
     private readonly productsService: ProductsService
   ) {};
 
-  // @Get()
-  // getProductList(
-  //   @Query() query: CommonQueryDto,
-  //   @Res() response: Response
-  // ) {
-  //   const products_list = this.productsService.getProductsList(query);
-  //   return response.status(200).send(products_list);
-  // };
+  @Get()
+  async getProductList(
+    @Query() query: CommonQueryDto,
+    @Res() response: Response
+  ) {
+    const products_list = await this.productsService.getProductsList(query);
+    return response.status(200).send(products_list);
+  };
 
   // @Get(':productId')
   // getProductById( 
