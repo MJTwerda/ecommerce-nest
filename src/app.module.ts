@@ -20,7 +20,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
     }),
     AuthModule, 
     ProductsModule, 
-    // UsersModule,
+    UsersModule,
   ],
   controllers: [],
   providers: [],

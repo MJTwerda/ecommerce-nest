@@ -3,5 +3,5 @@ import { BaseUserDto } from "./base-user-dto";
 
 export class CompleteUserDto extends BaseUserDto {
   @IsNumber()
-    id: number;
+    id: string;
 }

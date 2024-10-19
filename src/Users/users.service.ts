@@ -12,27 +12,27 @@ export class UsersService {
     private readonly usersRepository: UsersRepository
   ) {};
 
-  getUsersList(query: CommonQueryDto): CommonPaginatedResponse<Omit<CompleteUserDto, 'password'>> {
-    return this.usersRepository.getUsersList(query);
+  async createNewUser(user: BaseUserDto): Promise<string> {
+    return await this.usersRepository.createNewUser(user);
+  };
+
+  async getUsersList(query: CommonQueryDto): Promise<CommonPaginatedResponse<Omit<CompleteUserDto, 'password'>>> {
+    return await this.usersRepository.getUsersList(query);
   };
   
-  getUserById(userId: number): Omit<CompleteUserDto, 'password'> | undefined {
-    return this.usersRepository.getUserById(userId);
-  };
+  // getUserById(userId: number): Omit<CompleteUserDto, 'password'> | undefined {
+  //   return this.usersRepository.getUserById(userId);
+  // };
 
-  createNewUser(user: BaseUserDto): number {
-    return this.usersRepository.createNewUser(user);
-  };
+  // updateUserInfo(updatedUser: CompleteUserDto): number | undefined {
+  //   return this.usersRepository.updateUserInfo(updatedUser);
+  // };
 
-  updateUserInfo(updatedUser: CompleteUserDto): number | undefined {
-    return this.usersRepository.updateUserInfo(updatedUser);
-  };
+  // deleteUserById(userId: number): number | undefined {
+  //   return this.usersRepository.deleteUserById(userId);
+  // };
 
-  deleteUserById(userId: number): number | undefined {
-    return this.usersRepository.deleteUserById(userId);
-  };
-
-  findUserByCredentials(loginCredentials: AuthLoginDto): Omit<CompleteUserDto, 'password'> | undefined {
-    return this.usersRepository.findUserByCredentials(loginCredentials);
-  }
+  // findUserByCredentials(loginCredentials: AuthLoginDto): Omit<CompleteUserDto, 'password'> | undefined {
+  //   return this.usersRepository.findUserByCredentials(loginCredentials);
+  // }
 };
