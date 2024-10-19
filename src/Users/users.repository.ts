@@ -41,38 +41,40 @@ export class UsersRepository extends BaseRepository<UsersEntity> {
     }
   };
 
-  // getUserById(userId: number): Omit<CompleteUserDto, 'password'> | undefined {
-  //   const foundedUser = MOCK_USERS.find(user => user.id === userId);
+  async getUserById(userId: string): Promise<Omit<CompleteUserDto, 'password'> | undefined> {
+    const foundedUser = await this.usersRepository.findOneBy({
+      id: userId
+    })
 
-  //   if (!foundedUser) {
-  //     return undefined;
-  //   }
-  
-  //   const { password, ...userWithoutPassword } = foundedUser;
-  //   return userWithoutPassword;
-  // };
+    if (!foundedUser) {
+      return undefined;
+    };
 
-  // updateUserInfo(updatedUser: CompleteUserDto): number | undefined {
-  //   const foundedUser = MOCK_USERS.find(user => user.id === updatedUser.id);
+    const { password, ...userWithoutPassword } = foundedUser;
+    return userWithoutPassword;
+  };
+
+  async updateUserInfo(updatedUser: CompleteUserDto): Promise<string | null> {
+    const { password, ...updateData } = updatedUser; 
+
+    // Actualización
+    const result = await this.usersRepository.update(updatedUser.id, updateData);
     
-  //   if (!foundedUser) {
-  //     return undefined;
-  //   }
+    // Si 'affected' es 0, significa que no se encontró ningún usuario
+    if (result.affected === 0) return null; 
+    
+    return updatedUser.id;
+  };
 
-  //   Object.assign(foundedUser, updatedUser);
-  //   return updatedUser.id
-  // };
+  async deleteUserById(userId: string): Promise<string | null> {
+    const foundedUser = await this.usersRepository.delete(userId);
+    
+    if (foundedUser.affected === 0) {
+      return null;
+    }
 
-  // deleteUserById(userId: number): number | undefined {
-  //   const index = MOCK_USERS.findIndex(user => user.id === userId);
-  
-  //   if (index === -1) {
-  //     return undefined; // Usuario no encontrado
-  //   }
-  
-  //   MOCK_USERS.splice(index, 1); // Se elimina el usuario en la posición 'index'
-  //   return userId; 
-  // };
+    return userId;
+  };
 
   // findUserByCredentials(loginCredentials: AuthLoginDto): Omit<CompleteUserDto, 'password'> | undefined {
   //   const foundedUser = MOCK_USERS.find(user => (

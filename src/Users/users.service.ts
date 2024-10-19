@@ -20,17 +20,17 @@ export class UsersService {
     return await this.usersRepository.getUsersList(query);
   };
   
-  // getUserById(userId: number): Omit<CompleteUserDto, 'password'> | undefined {
-  //   return this.usersRepository.getUserById(userId);
-  // };
+  async getUserById(userId: string): Promise<Omit<CompleteUserDto, 'password'> | undefined> {
+    return await this.usersRepository.getUserById(userId);
+  };
 
-  // updateUserInfo(updatedUser: CompleteUserDto): number | undefined {
-  //   return this.usersRepository.updateUserInfo(updatedUser);
-  // };
+  async updateUserInfo(updatedUser: CompleteUserDto): Promise<string | null> {
+    return await this.usersRepository.updateUserInfo(updatedUser);
+  };
 
-  // deleteUserById(userId: number): number | undefined {
-  //   return this.usersRepository.deleteUserById(userId);
-  // };
+  async deleteUserById(userId: string): Promise<string | null> {
+    return await this.usersRepository.deleteUserById(userId);
+  };
 
   // findUserByCredentials(loginCredentials: AuthLoginDto): Omit<CompleteUserDto, 'password'> | undefined {
   //   return this.usersRepository.findUserByCredentials(loginCredentials);

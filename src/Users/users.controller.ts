@@ -33,6 +33,7 @@ export class UsersController {
     @Res() response: Response
   ) {
     const new_user_id = await this.usersService.createNewUser(newUser);
+    console.log({ new_user_id });
 
     if (!new_user_id) {
       return response.status(404).send(null);
@@ -51,51 +52,51 @@ export class UsersController {
     return response.status(200).send(users_list);
   };
 
-  // @Get(':userid')
-  // @UseGuards(AuthGuard)
-  // getUserById( 
-  //   @Param('userId') userId: string, 
-  //   @Res() response: Response
-  // ) {
-  //   if (!userId) {
-  //     return response.status(404).send(null);
-  //   };
+  @Get(':userId')
+  @UseGuards(AuthGuard)
+  async getUserById( 
+    @Param('userId') userId: string, 
+    @Res() response: Response
+  ) {
+    if (!userId) {
+      return response.status(404).send(null);
+    };
 
-  //   const founded_user = this.usersService.getUserById(Number(userId));
+    const founded_user = await this.usersService.getUserById(userId);
 
-  //   if (!founded_user) {
-  //     return response.status(404).send(null);
-  //   };
-  //   return response.status(200).send(founded_user);
-  // };
+    if (!founded_user) {
+      return response.status(404).send(null); // TODO: Agregar respuesta
+    };
+    return response.status(200).send(founded_user);
+  };
 
-  // @Put()
-  // @UseGuards(AuthGuard)
-  // @UsePipes(new ValidationPipe({ forbidUnknownValues: true }))
-  // updateUser(
-  //   @Body() updatedUser: CompleteUserDto, 
-  //   @Res() response: Response
-  // ) {
-  //   const updated_user_id = this.usersService.updateUserInfo(updatedUser);
-  //   if (!updated_user_id) {
-  //     return response.status(404).send(null);
-  //   };
+  @Put()
+  @UseGuards(AuthGuard)
+  @UsePipes(new ValidationPipe({ forbidUnknownValues: true }))
+  async updateUser(
+    @Body() updatedUser: CompleteUserDto, 
+    @Res() response: Response
+  ) {
+    const updated_user_id = await this.usersService.updateUserInfo(updatedUser);
 
-  //   return response.status(200).send({ updated_user_id } );
-  // };
+    if (!updated_user_id) {
+      return response.status(404).send(null); // TODO: Agregar Respuesta
+    };
 
-  // @Delete(':userId')
-  // @UseGuards(AuthGuard)
-  // @UsePipes(ParseIntPipe)
-  // deleteUserById(
-  //   @Param('userId', ParseIntPipe) userId, 
-  //   @Res() response: Response 
-  // ) {
-  //   if (!userId) {
-  //     return response.status(400).send(null);
-  //   };
+    return response.status(200).send({ updated_user_id } );
+  };
 
-  //   const deleted_user_id = this.usersService.deleteUserById(userId);
-  //   return response.status(201).send({ deleted_user_id });
-  // };
+  @Delete(':userId')
+  @UseGuards(AuthGuard)
+  async deleteUserById(
+    @Param('userId') userId, 
+    @Res() response: Response 
+  ) {
+    if (!userId) {
+      return response.status(400).send(null);
+    };
+
+    const deleted_user_id = await this.usersService.deleteUserById(userId);
+    return response.status(201).send({ deleted_user_id });
+  };
 };
