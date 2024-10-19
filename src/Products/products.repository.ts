@@ -17,7 +17,7 @@ export class ProductsRepository extends BaseRepository<ProductsEntity> {
     super(productsRepository.target, dataSource.createEntityManager());
   };
 
-  async createNewProduct(product: Omit<ProductsEntity, 'id'>): Promise<ProductsEntity | undefined> {
+  async createNewProduct(product: Omit<ProductsEntity, 'id'>): Promise<CompleteProductDto | undefined> {
     const createdUser = await this.productsRepository.save(product);
     return createdUser;
   };
@@ -26,7 +26,7 @@ export class ProductsRepository extends BaseRepository<ProductsEntity> {
     const options = {}; // Puedes personalizar las opciones de la búsqueda aquí
     const page = Number(query.page) || 1; // Valor por defecto de 1 si query.page es undefined o NaN
     const limit = Number(query.limit) || 5; // Valor por defecto de 1 si query.limit es undefined o NaN
-    return this.paginate(options, page, limit);
+    return await this.paginate(options, page, limit);
   }
 
   // async getProductsList(query: CommonQueryDto): Promise<CommonPaginatedResponse<ProductsEntity>> { 
