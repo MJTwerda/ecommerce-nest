@@ -41,13 +41,13 @@ export class UsersRepository extends BaseRepository<UsersEntity> {
     }
   };
 
-  async getUserById(userId: string): Promise<Omit<CompleteUserDto, 'password'> | undefined> {
+  async getUserById(userId: string): Promise<Omit<CompleteUserDto, 'password'> | null> {
     const foundedUser = await this.usersRepository.findOneBy({
       id: userId
     })
 
     if (!foundedUser) {
-      return undefined;
+      return null;
     };
 
     const { password, ...userWithoutPassword } = foundedUser;

@@ -20,7 +20,7 @@ export class UsersService {
     return await this.usersRepository.getUsersList(query);
   };
   
-  async getUserById(userId: string): Promise<Omit<CompleteUserDto, 'password'> | undefined> {
+  async getUserById(userId: string): Promise<Omit<CompleteUserDto, 'password'> | null> {
     return await this.usersRepository.getUserById(userId);
   };
 

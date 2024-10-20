@@ -29,63 +29,36 @@ export class ProductsRepository extends BaseRepository<ProductsEntity> {
     return await this.paginate(options, page, limit);
   }
 
-  // async getProductsList(query: CommonQueryDto): Promise<CommonPaginatedResponse<ProductsEntity>> { 
-  //   const productsList = await this.productsRepository.findAndCount();
-  //   console.log({ productsList });
+  async getProductById(productId: string): Promise<CompleteProductDto | null> {
+    const foundedProduct = await this.productsRepository.findOneBy({
+      id: productId
+    });
+
+    if (!foundedProduct) return null;
+
+    return foundedProduct;
+  };
+
+  async updateProductInfo(updatedProduct: CompleteProductDto): Promise<string | null> {
+    const result = await this.productsRepository.update(updatedProduct.id, updatedProduct);
     
-  //   const response = {
-  //     items: productsList[0],
-  //     page: 1,
-  //     limit: 5,
-  //     totalItems: productsList[1],
-  //     totalPages: 1
-  //   };
-  //   return response;
-  // };
+    if (result.affected === 0) {
+      return null;
+    };
 
-  // constructor() {
-  //   super();
-  // };
+    return updatedProduct.id;
 
-  // async getProductsList(query: CommonQueryDto): Promise<CommonPaginatedResponse<ProductsEntity>> { 
-  //   const page = Number(query.page) || 1; // Valor por defecto de 1 si query.page es undefined o NaN
-  //   const limit = Number(query.limit) || 5;
+  };
 
-  //   return await this.paginate({ page, limit });
-  // };
-
-  // getProductById(productId: number): CompleteProductDto | undefined {
-  //   const foundedProduct = MOCK_PRODUCTS.find(product => product.id === productId);
-  //   return foundedProduct;
-  // };
-
-  // createNewProduct(product: BaseProductDto): number {
-  //   const newProduct = {...product, id: MOCK_PRODUCTS.length + 1};
-  //   MOCK_PRODUCTS.push(newProduct);
-  //   return newProduct.id;
-  // };
-
-  // updateProductInfo(updatedProduct: CompleteProductDto): number | undefined {
-  //   const foundedProduct = MOCK_PRODUCTS.find(product => product.id === updatedProduct.id);
+  async deleteProductById(productId: string): Promise<string | null> {
+    const foundedProduct = await this.productsRepository.delete(productId);
     
-  //   if (!foundedProduct) {
-  //     return undefined;
-  //   }
+    if (foundedProduct.affected === 0) {
+      return null;
+    }
 
-  //   Object.assign(foundedProduct, updatedProduct);
-  //   return updatedProduct.id
-  // };
-
-  // deleteProductById(productId: number): number | undefined {
-  //   const index = MOCK_PRODUCTS.findIndex(product => product.id === productId);
-  
-  //   if (index === -1) {
-  //     return undefined; // Producto no encontrado
-  //   }
-  
-  //   MOCK_PRODUCTS.splice(index, 1); // Se elimina el producto en la posición 'index'
-  //   return productId; 
-  // };
+    return productId;
+  };
 };
 
 //! SIN TypeORM

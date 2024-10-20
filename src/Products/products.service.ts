@@ -16,22 +16,22 @@ export class ProductsService {
     return productsList;
   };
   
-  // getProductById(productId: number): CompleteProductDto | undefined {
-  //   return this.productsRepository.getProductById(productId);
-  // };
+  async getProductById(productId: string): Promise<CompleteProductDto | undefined> {
+    return await this.productsRepository.getProductById(productId);
+  };
 
   async createNewProduct(product: Omit<CompleteProductDto, 'id'>): Promise<string> {
     const createdProductId = await this.productsRepository.createNewProduct(product);
     return createdProductId.id;
   };
 
-  // updateProductInfo(updatedProduct: CompleteProductDto): number | undefined {
-  //   return this.productsRepository.updateProductInfo(updatedProduct);
-  // };
+  async updateProductInfo(updatedProduct: CompleteProductDto): Promise<string | null> {
+    return await this.productsRepository.updateProductInfo(updatedProduct);
+  };
 
-  // deleteProductById(productId: number): number | undefined {
-  //   return this.productsRepository.deleteProductById(productId);
-  // };
+  async deleteProductById(productId: string): Promise<string | null> {
+    return await this.productsRepository.deleteProductById(productId);
+  };
 }
 
 //! Sin TypeORM
