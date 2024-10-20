@@ -32,7 +32,7 @@ export class UsersService {
     return await this.usersRepository.deleteUserById(userId);
   };
 
-  // findUserByCredentials(loginCredentials: AuthLoginDto): Omit<CompleteUserDto, 'password'> | undefined {
-  //   return this.usersRepository.findUserByCredentials(loginCredentials);
-  // }
+  async findUserByCredentials(loginCredentials: AuthLoginDto): Promise<Omit<CompleteUserDto, 'password'> | undefined> {
+    return await this.usersRepository.findUserByCredentials(loginCredentials);
+  }
 };
