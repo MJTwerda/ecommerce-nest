@@ -7,4 +7,6 @@ export class BaseCategoryDto {
   @MaxLength(50)
   name: string;
 
+  @IsOptional()
+  products?: ProductsEntity[];
 }

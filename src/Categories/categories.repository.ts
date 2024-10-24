@@ -22,7 +22,7 @@ export class CategoriesRepository extends BaseRepository<CategoriesEntity> {
   };
 
   async getCategoriesList(query: CommonQueryDto): Promise<CommonPaginatedResponse<CategoriesEntity>> {
-    const options = {};
+    const options = { relations: [ 'products' ]};
     const page = Number(query.page) || 1;
     const limit = Number(query.limit) || 5;
     return await this.paginate(options, page, limit);
