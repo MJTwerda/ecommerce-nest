@@ -22,7 +22,7 @@ export class ProductsRepository extends BaseRepository<ProductsEntity> {
     return createdUser;
   };
 
-  async getProductsList(query: CommonQueryDto) {
+  async getProductsList(query: CommonQueryDto): Promise<CommonPaginatedResponse<ProductsEntity>> {
     const options = {}; // Puedes personalizar las opciones de la búsqueda aquí
     const page = Number(query.page) || 1; // Valor por defecto de 1 si query.page es undefined o NaN
     const limit = Number(query.limit) || 5; // Valor por defecto de 1 si query.limit es undefined o NaN

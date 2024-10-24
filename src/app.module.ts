@@ -7,6 +7,8 @@ import { UsersModule } from './Users/users.module';
 
 import typeOrmConfig from './config/typeorm';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { OrdersModule } from './Orders/orders.module';
+import { OrdersDetailsModule } from './OrderDetails/ordersDetails.module';
 
 @Module({
   imports: [ 
@@ -19,6 +21,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       useFactory: (configService: ConfigService) => configService.get('typeorm'),
     }),
     AuthModule, 
+    OrdersModule,
+    OrdersDetailsModule,
     ProductsModule, 
     UsersModule,
   ],
