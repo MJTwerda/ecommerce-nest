@@ -23,15 +23,16 @@ export class ProductsRepository extends BaseRepository<ProductsEntity> {
   };
 
   async getProductsList(query: CommonQueryDto): Promise<CommonPaginatedResponse<ProductsEntity>> {
-    const options = {}; // Puedes personalizar las opciones de la búsqueda aquí
+    const options = { relations: [ 'categories' ]}; // Puedes personalizar las opciones de la búsqueda aquí
     const page = Number(query.page) || 1; // Valor por defecto de 1 si query.page es undefined o NaN
     const limit = Number(query.limit) || 5; // Valor por defecto de 1 si query.limit es undefined o NaN
     return await this.paginate(options, page, limit);
   }
 
   async getProductById(productId: string): Promise<CompleteProductDto | null> {
-    const foundedProduct = await this.productsRepository.findOneBy({
-      id: productId
+    const foundedProduct = await this.productsRepository.findOne({
+      where: { id: productId },
+      relations: [ 'category' ],
     });
 
     if (!foundedProduct) return null;

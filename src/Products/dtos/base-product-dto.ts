@@ -24,7 +24,6 @@ export class BaseProductDto {
     image_url: string;
 
   @IsUUID() // Suponiendo que el ID es un string (UUID)
-  @IsOptional()
     category: CategoriesEntity;
 
   @IsArray() // Asegúrate de que sea un array
