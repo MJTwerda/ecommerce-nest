@@ -9,7 +9,7 @@ export class AuthService {
     private readonly usersService: UsersService
   ) {};
 
-  login(loginCredentials: AuthLoginDto): Omit<CompleteUserDto, 'password'> | undefined {
-    return this.usersService.findUserByCredentials(loginCredentials);
+  async login(loginCredentials: AuthLoginDto): Promise<Omit<CompleteUserDto, 'password'> | undefined> {
+    return await this.usersService.findUserByCredentials(loginCredentials);
   }
 }

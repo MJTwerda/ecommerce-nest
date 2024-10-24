@@ -4,7 +4,6 @@ import {
   Delete,
   Get,
   Param,
-  ParseIntPipe,
   Post,
   Put,
   Query,
@@ -30,16 +29,16 @@ export class ProductsController {
   ) {};
 
   @Get()
-  getProductList(
+  async getProductList(
     @Query() query: CommonQueryDto,
     @Res() response: Response
   ) {
-    const products_list = this.productsService.getProductsList(query);
+    const products_list = await this.productsService.getProductsList(query);
     return response.status(200).send(products_list);
   };
 
   @Get(':productId')
-  getProductById( 
+  async getProductById( 
     @Param('productId') productId: string, 
     @Res() response: Response
   ) {
@@ -47,10 +46,10 @@ export class ProductsController {
       return response.status(404).send(null);
     };
 
-    const founded_product = this.productsService.getProductById(Number(productId));
+    const founded_product = await this.productsService.getProductById(productId);
 
     if (!founded_product) {
-      return response.status(404).send(null);
+      return response.status(404).send(null); // TODO: Agregar respuesta
     };
     return response.status(200).send(founded_product);
   };
@@ -58,11 +57,11 @@ export class ProductsController {
   @Post()
   @UseGuards(AuthGuard)
   @UsePipes(ValidationPipe)
-  createNewProduct( 
+  async createNewProduct( 
     @Body() newProduct: BaseProductDto, 
     @Res() response: Response
   ) {
-    const new_product_id = this.productsService.createNewProduct(newProduct);
+    const new_product_id = await this.productsService.createNewProduct(newProduct);
 
     if (!new_product_id) {
       return response.status(404).send(null);
@@ -74,13 +73,13 @@ export class ProductsController {
   @Put()
   @UseGuards(AuthGuard)
   @UsePipes(new ValidationPipe({ forbidUnknownValues: true }))
-  updateProduct(
+  async updateProduct(
     @Body() updatedProduct: CompleteProductDto, 
     @Res() response: Response
   ) {
-    const updated_product_id = this.productsService.updateProductInfo(updatedProduct);
+    const updated_product_id = await this.productsService.updateProductInfo(updatedProduct);
     if (!updated_product_id) {
-      return response.status(404).send(null);
+      return response.status(404).send(null); // TODO: Agregar respuesta
     };
 
     return response.status(200).send({ updated_product_id } );
@@ -88,16 +87,15 @@ export class ProductsController {
 
   @Delete(':productId')
   @UseGuards(AuthGuard)
-  @UsePipes(ParseIntPipe)
-  deleteProductById(
-    @Param('productId', ParseIntPipe) productId, 
+  async deleteProductById(
+    @Param('productId') productId, 
     @Res() response: Response 
   ) {
     if (!productId) {
-      return response.status(400).send(null);
+      return response.status(400).send(null); //TODO: Agregar respuesta
     };
 
-    const deleted_product_id = this.productsService.deleteProductById(productId);
+    const deleted_product_id = await this.productsService.deleteProductById(productId);
     return response.status(201).send({ deleted_product_id });
   };
-}
+};
