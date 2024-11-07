@@ -22,6 +22,7 @@ export class ProductsService {
 
   async createNewProduct(product: Omit<CompleteProductDto, 'id'>): Promise<string> {
     const createdProductId = await this.productsRepository.createNewProduct(product);
+    if (!createdProductId) return null;
     return createdProductId.id;
   };
 

@@ -2,7 +2,6 @@ import { Injectable } from "@nestjs/common";
 import { BaseRepository } from '../commons/repositories/base-repository';
 import { CommonPaginatedResponse } from "src/commons/interfaces/common-query.interfaces";
 import { CommonQueryDto } from '../commons/dtos/common-query-dto';
-import { BaseProductDto } from './dtos/base-product-dto';
 import { CompleteProductDto } from './dtos/complete-product-dto';
 import { ProductsEntity } from "./products.entity";
 import { InjectRepository } from "@nestjs/typeorm";
@@ -17,7 +16,10 @@ export class ProductsRepository extends BaseRepository<ProductsEntity> {
     super(productsRepository.target, dataSource.createEntityManager());
   };
 
-  async createNewProduct(product: Omit<ProductsEntity, 'id'>): Promise<CompleteProductDto | undefined> {
+  async createNewProduct(product: Omit<ProductsEntity, 'id'>): Promise<CompleteProductDto | null> {
+    const founded_product = await this.getProductByName(product.name);
+    if (founded_product) return null;
+
     const createdUser = await this.productsRepository.save(product);
     return createdUser;
   };
@@ -59,6 +61,14 @@ export class ProductsRepository extends BaseRepository<ProductsEntity> {
     }
 
     return productId;
+  };
+
+  private async getProductByName(productName: string): Promise<CompleteProductDto | null> {
+    const founded_category = await this.productsRepository.findOne({
+      where: { name: productName }
+    });
+
+    return founded_category || null;
   };
 };
 
