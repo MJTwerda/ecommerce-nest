@@ -15,8 +15,11 @@ export class CategoriesService {
     return await this.categoriesRepository.getCategoriesList(query);
   };
 
-  async createNewCategory(category: BaseCategoryDto): Promise<string | undefined> {
+  async createNewCategory(category: BaseCategoryDto): Promise<string | null> {
     const createdCategoryId = await this.categoriesRepository.createNewCategory(category);
+
+    if (!createdCategoryId) return null;
+    
     return createdCategoryId.id
   };
-}
+};

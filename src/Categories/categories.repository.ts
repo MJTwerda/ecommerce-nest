@@ -17,7 +17,11 @@ export class CategoriesRepository extends BaseRepository<CategoriesEntity> {
     super(categoriesRepository.target, dataSource.createEntityManager());
   };
   
-  async createNewCategory(newCategory: BaseCategoryDto): Promise<CompleteCategoryDto | undefined> {
+  async createNewCategory(newCategory: BaseCategoryDto): Promise<CompleteCategoryDto | null> {
+    const founded_category = await this.getCategoryByName(newCategory.name);
+
+    if (founded_category) return null;
+
     return await this.categoriesRepository.save(newCategory);
   };
 
@@ -25,6 +29,15 @@ export class CategoriesRepository extends BaseRepository<CategoriesEntity> {
     const options = { relations: [ 'products' ]};
     const page = Number(query.page) || 1;
     const limit = Number(query.limit) || 5;
+
     return await this.paginate(options, page, limit);
+  };
+
+  async getCategoryByName(categoryName: string): Promise<CompleteCategoryDto | null> {
+    const founded_category = await this.categoriesRepository.findOne({
+      where: { name: categoryName }
+    });
+
+    return founded_category || null;
   };
 };
