@@ -33,7 +33,7 @@ export class CategoriesRepository extends BaseRepository<CategoriesEntity> {
     return await this.paginate(options, page, limit);
   };
 
-  async getCategoryByName(categoryName: string): Promise<CompleteCategoryDto | null> {
+  private async getCategoryByName(categoryName: string): Promise<CompleteCategoryDto | null> {
     const founded_category = await this.categoriesRepository.findOne({
       where: { name: categoryName }
     });
