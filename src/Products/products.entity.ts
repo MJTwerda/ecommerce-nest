@@ -33,6 +33,16 @@ export class ProductsEntity {
 
   // Relación N:N con OrderDetails
   @ManyToMany(() => OrderDetailsEntity, (orderDetails) => orderDetails.products, { nullable: true })
-  @JoinTable()
+  @JoinTable({
+    name: 'order_details_products',
+    joinColumn: {
+      name: 'products_id',
+      referencedColumnName: 'id'
+    },
+    inverseJoinColumn: {
+      name: 'order_details_id',
+      referencedColumnName: 'id'
+    }
+  })  // Nombre personalizado para la tabla de unión
     order_details: OrderDetailsEntity[];
 }
