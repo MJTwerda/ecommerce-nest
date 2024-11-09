@@ -22,7 +22,7 @@ export class OrdersRepository extends BaseRepository<OrdersEntity> {
   async getOrderById(orderId: string): Promise<OrdersEntity | null> {
     const founded_order = await this.ordersRepository.findOne({
       where: { id: orderId },
-      relations: [ 'user' ]
+      relations: [ 'order_detail', 'order_detail.products' ]
     });
 
     if (!founded_order) return null;

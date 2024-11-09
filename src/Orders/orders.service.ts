@@ -62,6 +62,10 @@ export class OrdersService {
   };
 
   async getOrderById(orderId: string) {
-    return await this.ordersRepository.getOrderById(orderId);
+    const foundedOrder = await this.ordersRepository.getOrderById(orderId);
+    
+    if (!foundedOrder) return null;
+
+    return foundedOrder;
   };
 }

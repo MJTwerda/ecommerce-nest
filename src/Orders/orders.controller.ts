@@ -28,7 +28,6 @@ export class OrdersController {
     @Param('orderId') orderId: string, 
     @Res() response: Response,
   ) {
-    console.log('Controller: ', orderId)
     if (!orderId) return response.status(404).send(null);
     
     const founded_order = await this.ordersService.getOrderById(orderId);
