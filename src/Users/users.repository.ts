@@ -24,7 +24,9 @@ export class UsersRepository extends BaseRepository<UsersEntity> {
   };
 
   async getUsersList(query: CommonQueryDto): Promise<CommonPaginatedResponse<Omit<CompleteUserDto, 'password'>>> { 
-    const options = {}; // Puedes personalizar las opciones de la búsqueda aquí
+    const options = {
+      relations: [ 'orders' ]
+    }; // Puedes personalizar las opciones de la búsqueda aquí
     const page = Number(query.page) || 1; // Valor por defecto de 1 si query.page es undefined o NaN
     const limit = Number(query.limit) || 5;
 
@@ -42,8 +44,9 @@ export class UsersRepository extends BaseRepository<UsersEntity> {
   };
 
   async getUserById(userId: string): Promise<Omit<CompleteUserDto, 'password'> | null> {
-    const foundedUser = await this.usersRepository.findOneBy({
-      id: userId
+    const foundedUser = await this.usersRepository.findOne({
+      where: { id: userId },
+      relations: [ 'orders' ]
     })
 
     if (!foundedUser) {
