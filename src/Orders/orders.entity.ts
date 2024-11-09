@@ -16,7 +16,8 @@ export class OrdersEntity {
 
   // Relations
   @ManyToOne(() => UsersEntity, (user) => user.orders, { nullable: false, onDelete: 'CASCADE' })
-    user: UsersEntity;
+  @JoinColumn({ name: 'user_id' }) 
+    user: string;
 
   @OneToOne(() => OrderDetailsEntity, { cascade: true, onDelete: 'CASCADE' })
   @JoinColumn({ name: 'order_detail_id' })
