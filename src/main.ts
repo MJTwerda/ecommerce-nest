@@ -1,6 +1,7 @@
 import { ValidationPipe, BadRequestException } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
+import { ResponseInterceptor } from './commons/interceptors/customInterceptorResponse';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -21,6 +22,7 @@ async function bootstrap() {
     //   })
     // },
   }));
+  app.useGlobalInterceptors(new ResponseInterceptor())
   await app.listen(3000);
 }
 bootstrap();
