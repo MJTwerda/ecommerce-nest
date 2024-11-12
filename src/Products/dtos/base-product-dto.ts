@@ -1,4 +1,4 @@
-import { IsArray, IsNumber, IsOptional, IsPositive, IsString, IsUrl, IsUUID, MaxLength } from "class-validator";
+import { IsArray, IsNumber, IsOptional, IsPositive, IsString, IsUrl, IsUUID, MaxLength, MinLength } from "class-validator";
 import { CategoriesEntity } from "src/Categories/categories.entity";
 import { OrderDetailsEntity } from "src/OrderDetails/orderDetails.entity";
 
@@ -6,6 +6,7 @@ export class BaseProductDto {
 
   @IsString()
   @MaxLength(50)
+  @MinLength(2)
     name: string;
 
   @IsString()
