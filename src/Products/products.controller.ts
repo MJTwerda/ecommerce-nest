@@ -9,7 +9,6 @@ import {
   Post,
   Put,
   Query,
-  Res,
   UseFilters,
   UseGuards,
   UsePipes,
@@ -43,7 +42,8 @@ export class ProductsController {
   async getProductById( 
     @Param('productId') productId: string, 
   ) {
-    return await this.productsService.getProductById(productId);
+    const founded_product = await this.productsService.getProductById(productId);
+    return { founded_product };
   };
 
   @Post()
@@ -63,10 +63,6 @@ export class ProductsController {
     @Body() updatedProduct: CompleteProductDto, 
   ) {
     const updated_product_id = await this.productsService.updateProductInfo(updatedProduct);
-    if (!updated_product_id) {
-      throw new HttpException('Product not found', HttpStatus.NOT_FOUND);
-    };
-
     return { updated_product_id };
   };
 
@@ -75,11 +71,6 @@ export class ProductsController {
   async deleteProductById(
     @Param('productId') productId: string, 
   ) {
-    const founded_product = await this.getProductById(productId);
-    if (!founded_product) {
-      throw new HttpException('Product not found', HttpStatus.NOT_FOUND);
-    };
-
     const deleted_product_id = await this.productsService.deleteProductById(productId);
     return { deleted_product_id}
   };
