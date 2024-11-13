@@ -42,8 +42,8 @@ export class ProductsController {
   async getProductById( 
     @Param('productId') productId: string, 
   ) {
-    const founded_product = await this.productsService.getProductById(productId);
-    return { founded_product };
+    const product_found = await this.productsService.getProductById(productId);
+    return { product_found };
   };
 
   @Post()
@@ -52,8 +52,8 @@ export class ProductsController {
   async createNewProduct( 
     @Body() newProduct: BaseProductDto, 
   ) {
-    const created_product_id = await this.productsService.createNewProduct(newProduct);
-    return { created_product_id };
+    const product_id_created = await this.productsService.createNewProduct(newProduct);
+    return { product_id_created };
   };
 
   @Put()
@@ -62,8 +62,8 @@ export class ProductsController {
   async updateProduct(
     @Body() updatedProduct: CompleteProductDto, 
   ) {
-    const updated_product_id = await this.productsService.updateProductInfo(updatedProduct);
-    return { updated_product_id };
+    const product_id_updated = await this.productsService.updateProductInfo(updatedProduct);
+    return { product_id_updated };
   };
 
   @Delete(':productId')
@@ -71,7 +71,7 @@ export class ProductsController {
   async deleteProductById(
     @Param('productId') productId: string, 
   ) {
-    const deleted_product_id = await this.productsService.deleteProductById(productId);
-    return { deleted_product_id}
+    const product_id_deleted = await this.productsService.deleteProductById(productId);
+    return { product_id_deleted}
   };
 };
