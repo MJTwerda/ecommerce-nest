@@ -53,8 +53,8 @@ export class UsersController {
   async getUserById( 
     @Param('userId') userId: string, 
   ) {
-    const founded_user = await this.usersService.getUserById(userId);
-    return { founded_user };
+    const user_found = await this.usersService.getUserById(userId);
+    return { user_found };
   };
 
   @Put()
@@ -63,8 +63,8 @@ export class UsersController {
   async updateUser(
     @Body() updatedUser: CompleteUserDto, 
   ) {
-    const updated_user_id = await this.usersService.updateUserInfo(updatedUser);
-    return { updated_user_id };
+    const user_id_updated = await this.usersService.updateUserInfo(updatedUser);
+    return { user_id_updated };
   };
 
   @Delete(':userId')
@@ -72,7 +72,7 @@ export class UsersController {
   async deleteUserById(
     @Param('userId') userId: string, 
   ) {
-    const deleted_user_id = await this.usersService.deleteUserById(userId);
-    return { deleted_user_id };
+    const user_id_deleted = await this.usersService.deleteUserById(userId);
+    return { user_id_deleted };
   };
 };
