@@ -16,7 +16,7 @@ export class OrdersService {
     private readonly productsService: ProductsService,
   ) {};
 
-  async addOrder(newOrder: BaseOrdersDto): Promise<OrdersEntity> {
+  async addOrder(newOrder: Omit<BaseOrdersDto, 'order_detail'>): Promise<OrdersEntity> {
     // Validar y obtener usuario
     const foundedUser = await this.usersService.getUserById(newOrder.user);
     if (!foundedUser) {
@@ -40,15 +40,6 @@ export class OrdersService {
       selectedProducts.push(foundProduct);
     };
 
-    // Crear y completar la entidad de la orden
-    const orderEntity = new OrdersEntity();
-    orderEntity.user = foundedUser.id;
-    // orderEntity.order_detail = orderDetail;
-    orderEntity.date = newOrder.date;
-
-    // Guardar la entidad usando el repositorio
-    const savedOrder = await this.ordersRepository.saveOrder(orderEntity);
-
     // Crear un nuevo detalle de la orden con los productos seleccionados y el total
     const orderDetail = new OrderDetailsEntity();
     orderDetail.price = total; // Asignar el precio total calculado
@@ -57,8 +48,14 @@ export class OrdersService {
     // Guardar el detalle de la orden primero
     const savedOrderDetail = await this.orderDetailsService.createOrderDetail(orderDetail);
 
-    savedOrder.order_detail = savedOrderDetail;
-    return await this.ordersRepository.saveOrder(savedOrder);
+    // Crear y completar la entidad de la orden
+    const orderEntity = new OrdersEntity();
+    orderEntity.user = foundedUser.id;
+    orderEntity.order_detail = savedOrderDetail;
+    orderEntity.date = newOrder.date;
+
+    // Guardar la entidad usando el repositorio
+    return await this.ordersRepository.saveOrder(orderEntity);
   };
 
   async getOrderById(orderId: string) {
