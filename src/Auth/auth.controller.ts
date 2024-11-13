@@ -1,8 +1,6 @@
-import { Body, Controller, Post, Res } from "@nestjs/common";
+import { Body, Controller, Post } from "@nestjs/common";
 import { AuthLoginDto } from './dtos/auth-login-dto';
 import { AuthService } from './auth.service';
-import { Response } from "express";
-import { INVALID_CREDENTIALS } from "./resources/validation-resources";
 
 @Controller('auth')
 export class AuthController {
@@ -11,17 +9,8 @@ export class AuthController {
   @Post('login')
   async login(
     @Body() loginCredentials: AuthLoginDto,
-    @Res() response: Response 
   ) {
-    const founded_user = await this.authService.login(loginCredentials);
-
-    if (!founded_user) {
-      return response.status(400).send({ 
-        error: "Bad Request", 
-        message: [ INVALID_CREDENTIALS ] 
-      });
-    };
-
-    return response.status(200).send(founded_user);
+    const user_found = await this.authService.login(loginCredentials);
+    return { user_found }
   }
 }
