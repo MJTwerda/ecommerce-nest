@@ -8,6 +8,7 @@ import { AuthLoginDto } from "src/Auth/dtos/auth-login-dto";
 
 @Injectable()
 export class UsersService {
+  
   constructor(
     private readonly usersRepository: UsersRepository
   ) {};
@@ -24,6 +25,10 @@ export class UsersService {
     return await this.usersRepository.getUserById(userId);
   };
 
+  async getUserByEmail(email: string) {
+    return await this.usersRepository.getUserByEmail(email);
+  };
+
   async updateUserInfo(updatedUser: CompleteUserDto): Promise<string | null> {
     return await this.usersRepository.updateUserInfo(updatedUser);
   };
@@ -34,5 +39,5 @@ export class UsersService {
 
   async findUserByCredentials(loginCredentials: AuthLoginDto): Promise<Omit<CompleteUserDto, 'password'> | undefined> {
     return await this.usersRepository.findUserByCredentials(loginCredentials);
-  }
+  };
 };

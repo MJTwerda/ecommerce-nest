@@ -31,14 +31,14 @@ export class UsersController {
     private readonly usersService: UsersService
   ) {};
 
-  @Post()
-  @UsePipes(ValidationPipe)
-  async createNewUser( 
-    @Body() newUser: BaseUserDto, 
-  ) {
-    const new_user_id = await this.usersService.createNewUser(newUser);
-    return { new_user_id };
-  };
+  // @Post()
+  // @UsePipes(ValidationPipe)
+  // async createNewUser( 
+  //   @Body() newUser: BaseUserDto, 
+  // ) {
+  //   const new_user_id = await this.usersService.createNewUser(newUser);
+  //   return { new_user_id };
+  // };
 
   @Get()
   @UseGuards(AuthGuard)

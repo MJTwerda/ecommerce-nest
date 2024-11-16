@@ -11,6 +11,7 @@ import { DataSource, Repository } from "typeorm";
 
 @Injectable()
 export class UsersRepository extends BaseRepository<UsersEntity> {
+  
   constructor(
     @InjectRepository(UsersEntity) private readonly usersRepository: Repository<UsersEntity>,
     dataSource: DataSource
@@ -44,18 +45,30 @@ export class UsersRepository extends BaseRepository<UsersEntity> {
   };
 
   async getUserById(userId: string): Promise<Omit<CompleteUserDto, 'password'> | null> {
-    const foundedUser = await this.usersRepository.findOne({
+    const founded_user = await this.usersRepository.findOne({
       where: { id: userId },
       relations: [ 'orders' ]
     })
 
-    if (!foundedUser) {
+    if (!founded_user) {
       return null;
     };
 
-    const { password, ...userWithoutPassword } = foundedUser;
+    const { password, ...userWithoutPassword } = founded_user;
     return userWithoutPassword;
   };
+
+  async getUserByEmail(email: string): Promise<CompleteUserDto | null> {
+    const founded_user = await this.usersRepository.findOne({
+      where: { email }
+    });
+    
+    if (!founded_user) {
+      return null;
+    };
+
+    return founded_user;
+  }
 
   async updateUserInfo(updatedUser: CompleteUserDto): Promise<string | null> {
     const { password, ...updateData } = updatedUser; 
