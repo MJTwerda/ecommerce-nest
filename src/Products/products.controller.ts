@@ -21,10 +21,9 @@ import { CompleteProductDto } from './dtos/complete-product-dto';
 import { BaseProductDto } from './dtos/base-product-dto';
 import { CommonQueryDto } from '../commons/dtos/common-query-dto';
 import { AuthGuard } from 'src/Auth/guards/auth.guard';
-import { AllExceptionsFilter } from '../commons/errorHandlers/allExceptionsFilter';
 
 
-@UseFilters(AllExceptionsFilter)
+// @UseFilters(AllExceptionsFilter)
 @Controller('products')
 export class ProductsController {
   constructor(
