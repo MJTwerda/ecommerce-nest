@@ -3,13 +3,9 @@ import {
   Controller,
   Delete,
   Get,
-  HttpStatus,
   Param,
-  ParseIntPipe,
-  Post,
   Put,
   Query,
-  Res,
   UseFilters,
   UseGuards,
   UsePipes,
@@ -17,31 +13,20 @@ import {
 } from "@nestjs/common";
 import { UsersService } from './users.service';
 import { CommonQueryDto } from '../commons/dtos/common-query-dto';
-import { Response } from "express";
-import { BaseUserDto } from "./dtos/base-user-dto";
 import { CompleteUserDto } from './dtos/complete-user-dto';
 import { AuthGuard } from "src/Auth/guards/auth.guard";
 import { AllExceptionsFilter } from "src/commons/errorHandlers/allExceptionsFilter";
-import { HttpException } from '@nestjs/common';
 
 @UseFilters(AllExceptionsFilter)
+@UseGuards(AuthGuard)
 @Controller('users')
 export class UsersController { 
   constructor(
     private readonly usersService: UsersService
   ) {};
 
-  // @Post()
-  // @UsePipes(ValidationPipe)
-  // async createNewUser( 
-  //   @Body() newUser: BaseUserDto, 
-  // ) {
-  //   const new_user_id = await this.usersService.createNewUser(newUser);
-  //   return { new_user_id };
-  // };
-
   @Get()
-  @UseGuards(AuthGuard)
+  // @UseGuards(AuthGuard)
   async getUsersList(
     @Query() query: CommonQueryDto,
   ) {
@@ -49,7 +34,7 @@ export class UsersController {
   };
 
   @Get(':userId')
-  @UseGuards(AuthGuard)
+  // @UseGuards(AuthGuard)
   async getUserById( 
     @Param('userId') userId: string, 
   ) {
@@ -58,7 +43,7 @@ export class UsersController {
   };
 
   @Put()
-  @UseGuards(AuthGuard)
+  // @UseGuards(AuthGuard)
   @UsePipes(new ValidationPipe({ forbidUnknownValues: true }))
   async updateUser(
     @Body() updatedUser: CompleteUserDto, 
@@ -68,7 +53,7 @@ export class UsersController {
   };
 
   @Delete(':userId')
-  @UseGuards(AuthGuard)
+  // @UseGuards(AuthGuard)
   async deleteUserById(
     @Param('userId') userId: string, 
   ) {
