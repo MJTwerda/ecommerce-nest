@@ -24,7 +24,7 @@ export class UsersRepository extends BaseRepository<UsersEntity> {
     return newUser.id;
   };
 
-  async getUsersList(query: CommonQueryDto): Promise<CommonPaginatedResponse<Omit<CompleteUserDto, 'password'>>> { 
+  async getUsersList(query: CommonQueryDto): Promise<CommonPaginatedResponse<Omit<CompleteUserDto, 'password' | 'validity_password'>>> { 
     const options = {
       relations: [ 'orders' ]
     }; // Puedes personalizar las opciones de la búsqueda aquí
@@ -44,7 +44,7 @@ export class UsersRepository extends BaseRepository<UsersEntity> {
     }
   };
 
-  async getUserById(userId: string): Promise<Omit<CompleteUserDto, 'password'> | null> {
+  async getUserById(userId: string): Promise<Omit<CompleteUserDto, 'password' | 'validity_password'> | null> {
     const founded_user = await this.usersRepository.findOne({
       where: { id: userId },
       relations: [ 'orders' ]
@@ -59,6 +59,7 @@ export class UsersRepository extends BaseRepository<UsersEntity> {
   };
 
   async getUserByEmail(email: string): Promise<CompleteUserDto | null> {
+    const founded_user_dto = new CompleteUserDto();
     const founded_user = await this.usersRepository.findOne({
       where: { email }
     });
@@ -67,7 +68,16 @@ export class UsersRepository extends BaseRepository<UsersEntity> {
       return null;
     };
 
-    return founded_user;
+    founded_user_dto.id = founded_user.id;
+    founded_user_dto.email = founded_user.email;
+    founded_user_dto.name = founded_user.name;
+    founded_user_dto.address = founded_user.address;
+    founded_user_dto.phone = founded_user.phone;
+    founded_user_dto.country = founded_user.country;
+    founded_user_dto.city = founded_user.city;
+    founded_user_dto.password = founded_user.password;
+
+    return founded_user_dto;
   }
 
   async updateUserInfo(updatedUser: CompleteUserDto): Promise<string | null> {
@@ -92,7 +102,7 @@ export class UsersRepository extends BaseRepository<UsersEntity> {
     return userId;
   };
 
-  async findUserByCredentials(loginCredentials: AuthLoginDto): Promise<Omit<CompleteUserDto, 'password'> | undefined> {
+  async findUserByCredentials(loginCredentials: AuthLoginDto): Promise<Omit<CompleteUserDto, 'password' | 'validity_password'> | undefined> {
     const foundedUser = await this.usersRepository.findOneBy({
       email: loginCredentials.email,
       password: loginCredentials.password

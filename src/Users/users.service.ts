@@ -17,11 +17,11 @@ export class UsersService {
     return await this.usersRepository.createNewUser(user);
   };
 
-  async getUsersList(query: CommonQueryDto): Promise<CommonPaginatedResponse<Omit<CompleteUserDto, 'password'>>> {
+  async getUsersList(query: CommonQueryDto): Promise<CommonPaginatedResponse<Omit<CompleteUserDto, 'password' | 'validity_password'>>> {
     return await this.usersRepository.getUsersList(query);
   };
   
-  async getUserById(userId: string): Promise<Omit<CompleteUserDto, 'password'> | null> {
+  async getUserById(userId: string): Promise<Omit<CompleteUserDto, 'password' | 'validity_password'> | null> {
     return await this.usersRepository.getUserById(userId);
   };
 
@@ -37,7 +37,7 @@ export class UsersService {
     return await this.usersRepository.deleteUserById(userId);
   };
 
-  async findUserByCredentials(loginCredentials: AuthLoginDto): Promise<Omit<CompleteUserDto, 'password'> | undefined> {
+  async findUserByCredentials(loginCredentials: AuthLoginDto): Promise<Omit<CompleteUserDto, 'password' | 'validity_password'> | undefined> {
     return await this.usersRepository.findUserByCredentials(loginCredentials);
   };
 };

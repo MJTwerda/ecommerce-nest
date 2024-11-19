@@ -15,9 +15,8 @@ import { UsersService } from './users.service';
 import { CommonQueryDto } from '../commons/dtos/common-query-dto';
 import { CompleteUserDto } from './dtos/complete-user-dto';
 import { AuthGuard } from "src/Auth/guards/auth.guard";
-import { AllExceptionsFilter } from "src/commons/errorHandlers/allExceptionsFilter";
 
-@UseFilters(AllExceptionsFilter)
+// @UseFilters(AllExceptionsFilter)
 @UseGuards(AuthGuard)
 @Controller('users')
 export class UsersController { 
