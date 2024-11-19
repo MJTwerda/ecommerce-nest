@@ -4,10 +4,12 @@ import { UsersService } from "src/Users/users.service";
 import { AuthLoginDto } from "./dtos/auth-login-dto";
 import * as bcrypt from 'bcrypt';
 import { BaseUserDto } from "src/Users/dtos/base-user-dto";
+import { JwtService } from "@nestjs/jwt";
 
 @Injectable()
 export class AuthService {
   constructor(
+    private readonly jwtService: JwtService,
     private readonly usersService: UsersService,
   ) {};
 
@@ -38,6 +40,10 @@ export class AuthService {
 
     if (!isPasswordValid) return false;
 
-    return user.id;
+    const user_payload = { email: user.email, id: user.id, sub: user.id };
+
+    const token = this.jwtService.sign(user_payload);
+
+    return token;
   };
 }

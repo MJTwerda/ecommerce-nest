@@ -30,10 +30,10 @@ export class AuthController {
   async signIn(
     @Body() userCredentials: UserCredentialsDto
   ) {
-    const sign_up_user_id = await this.authService.signIn(
+    const access_token = await this.authService.signIn(
       userCredentials.email, 
       userCredentials.password
     );
-    return { sign_up_user_id };
+    return { access_token };
   }
 }
