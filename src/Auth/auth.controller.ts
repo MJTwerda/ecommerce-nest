@@ -1,4 +1,4 @@
-import { Body, Controller, Post, UsePipes, ValidationPipe } from "@nestjs/common";
+import { BadRequestException, Body, Controller, Post, UsePipes, ValidationPipe } from "@nestjs/common";
 import { AuthLoginDto } from './dtos/auth-login-dto';
 import { AuthService } from './auth.service';
 import { BaseUserDto } from "src/Users/dtos/base-user-dto";
@@ -34,6 +34,9 @@ export class AuthController {
       userCredentials.email, 
       userCredentials.password
     );
+    if (!access_token) {
+      throw new BadRequestException({ error: "Invalid credentials", message: "Credenciales incorrectas" });
+    }
     return { access_token };
   }
 }

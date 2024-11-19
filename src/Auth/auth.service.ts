@@ -22,7 +22,6 @@ export class AuthService {
   ): Promise<boolean | string> {
     const user = await this.usersService.getUserByEmail(userDto.email);
 
-    // if (user) throw new BadRequestException('An error has ocurred. Failed to sign up correctly.');
     if (user) {
       throw new BadRequestException(
         { error: "An error has ocurred", message: "Error al registrar un usuario" } //TODO: Mejorar
@@ -44,15 +43,11 @@ export class AuthService {
   async signIn(email: string, password: string): Promise<string | false> {
     const user = await this.usersService.getUserByEmail(email);
 
-    if (!user) {
-      throw new BadRequestException({ error: "Invalid credentials", message: "Credenciales incorrectas" })
-    };
+    if (!user) return false;
 
     const isPasswordValid: boolean = await bcrypt.compare(password, user.password);
 
-    if (!isPasswordValid) {
-      throw new BadRequestException({ error: "Invalid credentials", message: "Credenciales incorrectas" })
-    };
+    if (!isPasswordValid) return false;
 
     const user_payload = { email: user.email, id: user.id, sub: user.id };
 
