@@ -8,14 +8,6 @@ import { UserCredentialsDto } from "src/Users/dtos/user-credentials.dto";
 export class AuthController {
   constructor( private readonly authService: AuthService) {};
 
-  @Post('login')
-  async login(
-    @Body() loginCredentials: AuthLoginDto,
-  ) {
-    const user_found = await this.authService.login(loginCredentials);
-    return { user_found }
-  };
-
   @Post('sign-up')
   @UsePipes(ValidationPipe)
   async signUp(

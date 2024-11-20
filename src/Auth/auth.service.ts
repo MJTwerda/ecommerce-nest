@@ -13,10 +13,6 @@ export class AuthService {
     private readonly usersService: UsersService,
   ) {};
 
-  async login(loginCredentials: AuthLoginDto): Promise<Omit<CompleteUserDto, 'password' | 'validity_password'> | undefined> {
-    return await this.usersService.findUserByCredentials(loginCredentials);
-  }
-
   async signUp(
     userDto: BaseUserDto
   ): Promise<boolean | string> {
