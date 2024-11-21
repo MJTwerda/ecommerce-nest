@@ -3,9 +3,12 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ResponseInterceptor } from './commons/interceptors/customInterceptorResponse';
 import { AllExceptionsFilter } from './commons/errorHandlers/allExceptionsFilter';
+import { auth } from 'express-openid-connect';
+import { config as auth0Config } from './config/auth0.config';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  app.use(auth(auth0Config)); // TODO: Para implementación de Auth0
   app.useGlobalPipes(new ValidationPipe({
     whitelist: true, // Elimina propiedades adicionales automáticamente
     forbidNonWhitelisted: true, // Lanza un error si hay propiedades adicionales
