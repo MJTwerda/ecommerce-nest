@@ -21,7 +21,7 @@ export class UsersService {
     return await this.usersRepository.getUsersList(query);
   };
   
-  async getUserById(userId: string): Promise<Omit<CompleteUserDto, 'password' | 'validity_password'> | null> {
+  async getUserById(userId: string): Promise<Omit<CompleteUserDto, 'password' | 'validity_password' | 'is_admin'> | null> {
     return await this.usersRepository.getUserById(userId);
   };
 

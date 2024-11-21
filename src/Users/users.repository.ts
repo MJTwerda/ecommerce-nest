@@ -44,7 +44,7 @@ export class UsersRepository extends BaseRepository<UsersEntity> {
     }
   };
 
-  async getUserById(userId: string): Promise<Omit<CompleteUserDto, 'password' | 'validity_password'> | null> {
+  async getUserById(userId: string): Promise<Omit<CompleteUserDto, 'password' | 'validity_password' | 'is_admin'> | null> {
     const founded_user = await this.usersRepository.findOne({
       where: { id: userId },
       relations: [ 'orders' ]
@@ -54,7 +54,7 @@ export class UsersRepository extends BaseRepository<UsersEntity> {
       return null;
     };
 
-    const { password, ...userWithoutPassword } = founded_user;
+    const { password, is_admin, ...userWithoutPassword } = founded_user;
     return userWithoutPassword;
   };
 
