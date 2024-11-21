@@ -9,6 +9,9 @@ export class UsersEntity {
   @PrimaryGeneratedColumn('uuid')
     id: string = uuidv4();
 
+  @Column({ default: false })
+    is_admin: boolean;
+
   @Column({ unique: true, nullable: false, length: 50 })
     email: string;
 

@@ -5,6 +5,7 @@ import { AuthLoginDto } from "./dtos/auth-login-dto";
 import * as bcrypt from 'bcrypt';
 import { BaseUserDto } from "src/Users/dtos/base-user-dto";
 import { JwtService } from "@nestjs/jwt";
+import { AvailableRoles } from './interfaces/roles.enums';
 
 @Injectable()
 export class AuthService {
@@ -45,7 +46,13 @@ export class AuthService {
 
     if (!isPasswordValid) return false;
 
-    const user_payload = { email: user.email, id: user.id, sub: user.id };
+    // TODO: La manera de manejar los roles con la columna "is_admin" no escala si se tienen más de 2 roles
+    const user_payload = { 
+      email: user.email,
+      id: user.id,
+      sub: user.id,
+      roles: user.is_admin ? [ AvailableRoles.ADMIN ] : [ AvailableRoles.USER ]
+    };
 
     const token = this.jwtService.sign(user_payload);
 

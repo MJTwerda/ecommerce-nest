@@ -20,7 +20,7 @@ export class AuthGuard implements CanActivate {
     try {
       const secret = process.env.JWT_SECRET;
       const payload = await this.jwtService.verifyAsync(authHeader, { secret });
-      payload.roles = [AvailableRoles.USER];
+      // payload.roles = [AvailableRoles.USER]; //TODO: hardcodeo de rol "user". Ahora se setea en el signIn
 
       request['user'] = payload;
       return true;

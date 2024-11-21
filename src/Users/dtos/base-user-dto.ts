@@ -1,4 +1,4 @@
-import { IsEmail, IsNotEmpty, IsOptional, IsString, Matches, MaxLength, MinLength } from "class-validator"
+import { IsBoolean, IsEmail, IsEmpty, IsNotEmpty, IsOptional, IsString, Matches, MaxLength, MinLength } from "class-validator"
 
 export class BaseUserDto {
   
@@ -48,4 +48,8 @@ export class BaseUserDto {
   @MinLength(3, { message: 'City must be at least 3 characters long' })
   @MaxLength(50, { message: 'City must not exceed 50 characters' })
     city: string;
+
+  @IsBoolean()
+  @IsEmpty()
+    is_admin: boolean;
 }
