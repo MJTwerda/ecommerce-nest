@@ -6,7 +6,6 @@ import {
   Param,
   Put,
   Query,
-  UseFilters,
   UseGuards,
   UsePipes,
   ValidationPipe 
@@ -15,6 +14,9 @@ import { UsersService } from './users.service';
 import { CommonQueryDto } from '../commons/dtos/common-query-dto';
 import { CompleteUserDto } from './dtos/complete-user-dto';
 import { AuthGuard } from "src/Auth/guards/auth.guard";
+import { Roles } from "src/Auth/decorators/roles.decorator";
+import { AvailableRoles } from "src/Auth/interfaces/roles.enums";
+import { RolesGuard } from "src/Auth/guards/roles.guard";
 
 // @UseFilters(AllExceptionsFilter)
 @UseGuards(AuthGuard)
@@ -52,7 +54,8 @@ export class UsersController {
   };
 
   @Delete(':userId')
-  // @UseGuards(AuthGuard)
+  @Roles(AvailableRoles.ADMIN)
+  @UseGuards(RolesGuard)
   async deleteUserById(
     @Param('userId') userId: string, 
   ) {
