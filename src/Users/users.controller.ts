@@ -6,6 +6,7 @@ import {
   Param,
   Put,
   Query,
+  Req,
   UseGuards,
   UsePipes,
   ValidationPipe 
@@ -17,6 +18,7 @@ import { AuthGuard } from "src/Auth/guards/auth.guard";
 import { Roles } from "src/Auth/decorators/roles.decorator";
 import { AvailableRoles } from "src/Auth/interfaces/roles.enums";
 import { RolesGuard } from "src/Auth/guards/roles.guard";
+import { Request } from "express";
 
 // @UseFilters(AllExceptionsFilter)
 @UseGuards(AuthGuard)
@@ -25,6 +27,15 @@ export class UsersController {
   constructor(
     private readonly usersService: UsersService
   ) {};
+
+  // TODO: Para implementación de Auth0
+  @Get('auth0/protected')
+  getAuth0Protected(
+    @Req() request: Request
+  ) {
+    console.log('auth0 PROTECTED!!!! ', request.oidc)
+    return JSON.stringify(request.oidc.user)
+  }
 
   @Get()
   // @UseGuards(AuthGuard)
