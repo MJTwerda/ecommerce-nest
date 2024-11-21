@@ -35,6 +35,7 @@ export class ProductsController {
   };
 
   @Get(':productId')
+  @UseGuards(AuthGuard)
   async getProductById( 
     @Param('productId') productId: string, 
   ) {
